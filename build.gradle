@@ -1,0 +1,40 @@
+apply plugin: 'com.android.feature'
+apply from: '../libraries.gradle'
+
+android {
+
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    application project(':app')
+
+    implementation project(':wecast-core')
+
+    // Dependency Injection
+    implementation libraries.dagger.base
+    annotationProcessor libraries.dagger.compiler
+    implementation libraries.dagger.android
+    annotationProcessor libraries.dagger.androidProcessor
+    implementation libraries.dagger.androidSupport
+
+    // Testing
+    api libraries.jUnit.base
+}

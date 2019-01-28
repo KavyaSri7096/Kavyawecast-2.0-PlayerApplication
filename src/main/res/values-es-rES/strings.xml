@@ -1,0 +1,12 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Exo Player -->
+    <string name="error_drm_unsupported_scheme">Este dispositivo no es compatible con el esquema DRM requerido</string>
+    <string name="error_drm_unknown">Ocurrió un error de DRM desconocido</string>
+    <string name="error_no_decoder">Ocurrió un error de DRM desconocido <xliff:g id="mime_type">%1$s</xliff:g></string>
+    <string name="error_no_secure_decoder">Ocurrió un error de DRM desconocido <xliff:g id="mime_type">%1$s</xliff:g></string>
+    <string name="error_querying_decoders">Ocurrió un error de DRM desconocido</string>
+    <string name="error_instantiating_decoder">No se puede crear una instancia del decodificador <xliff:g id="decoder_name">%1$s</xliff:g></string>
+    <string name="error_behind_live_window">No se puede crear una instancia del decodificador</string>
+
+</resources>
