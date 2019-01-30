@@ -85,7 +85,7 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
         public void onPlayerError(ExoPlaybackException error) {
             if (!isPlayingBackup && params.getBackupUrl() != null) {
                 playBackup();
-                Logger.e("Player error, lets try with backup url");
+                Logger.e("WeExoPlayer", "Player error, lets try with backup url");
             } else {
                 errorListener.onError(error);
             }
@@ -262,7 +262,9 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
 
     @Override
     public void play(String url) {
-        this.params = new WePlayerParams.Builder().setUrl(url).build();
+        this.params = new WePlayerParams.Builder()
+                .setUrl(url)
+                .build();
         reinitialize(url);
         isAspectSet = false;
         isPlayingBackup = false;
