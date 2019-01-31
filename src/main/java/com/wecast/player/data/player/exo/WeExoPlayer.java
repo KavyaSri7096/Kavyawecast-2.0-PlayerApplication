@@ -34,7 +34,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.util.Util;
 import com.wecast.core.data.db.entities.AspectRatio;
 import com.wecast.core.data.db.pref.PreferenceManager;
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 import com.wecast.player.R;
 import com.wecast.player.data.player.AbstractPlayer;
 import com.wecast.player.data.player.exo.mediaSource.CustomMediaSourceBuilder;
