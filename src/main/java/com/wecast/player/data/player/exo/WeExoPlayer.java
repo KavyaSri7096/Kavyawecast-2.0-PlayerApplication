@@ -34,7 +34,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.util.Util;
 import com.wecast.core.data.db.entities.AspectRatio;
 import com.wecast.core.data.db.pref.PreferenceManager;
-import com.wecast.core.Logger;
+import com.wecast.core.logger.Logger;
 import com.wecast.player.R;
 import com.wecast.player.data.player.AbstractPlayer;
 import com.wecast.player.data.player.exo.mediaSource.CustomMediaSourceBuilder;
@@ -85,7 +85,7 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
         public void onPlayerError(ExoPlaybackException error) {
             if (!isPlayingBackup && params.getBackupUrl() != null) {
                 playBackup();
-                Logger.e("Player error, lets try with backup url");
+                Logger.e("WeExoPlayer", "Player error, lets try with backup url");
             } else {
                 errorListener.onError(error);
             }
@@ -262,7 +262,9 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
 
     @Override
     public void play(String url) {
-        this.params = new WePlayerParams.Builder().setUrl(url).build();
+        this.params = new WePlayerParams.Builder()
+                .setUrl(url)
+                .build();
         reinitialize(url);
         isAspectSet = false;
         isPlayingBackup = false;
