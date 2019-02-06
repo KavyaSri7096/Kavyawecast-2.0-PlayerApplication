@@ -28,6 +28,9 @@ dependencies {
 
     implementation project(':wecast-core')
 
+    // Android X support
+    api libraries.androidx.base
+
     // Dependency Injection
     implementation libraries.dagger.base
     annotationProcessor libraries.dagger.compiler
