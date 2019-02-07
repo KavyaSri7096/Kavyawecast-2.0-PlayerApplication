@@ -1,4 +1,4 @@
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.library'
 apply from: '../libraries.gradle'
 
 android {
@@ -24,7 +24,6 @@ android {
 }
 
 dependencies {
-    application project(':app')
 
     implementation project(':wecast-core')
 
