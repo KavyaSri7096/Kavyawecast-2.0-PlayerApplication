@@ -127,9 +127,9 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
 
         boolean needNewPlayer = player == null;
         if (needNewPlayer) {
-            //if (params != null && params.getDrmUrl() != null) {
-            //    buildDrmSession();
-            //}
+            if (params != null && params.getDrmUrl() != null) {
+                buildDrmSession();
+            }
 
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
             defaultTrackSelector = createDefaultTrackSelector(videoTrackSelectionFactory);
@@ -156,14 +156,15 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
 
     private SimpleExoPlayer createPlayer() {
         int buffer = params != null ? params.getBuffer() * 1000 : 0;
+        DefaultLoadControl defaultLoadControl;
         if (buffer == 0) {
-            return ExoPlayerFactory.newSimpleInstance(activity.get(), defaultTrackSelector);
+            defaultLoadControl = new DefaultLoadControl();
         } else {
-            DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(activity.get(), null);
             DefaultAllocator defaultAllocator = new DefaultAllocator(true, C.DEFAULT_BUFFER_SEGMENT_SIZE);
-            DefaultLoadControl defaultLoadControl = new DefaultLoadControl(defaultAllocator, buffer, buffer, buffer, buffer, C.LENGTH_UNSET, true);
-            return ExoPlayerFactory.newSimpleInstance(renderersFactory, defaultTrackSelector, defaultLoadControl);
+            defaultLoadControl = new DefaultLoadControl(defaultAllocator, buffer, buffer, buffer, buffer, C.LENGTH_UNSET, true);
         }
+        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(activity.get(), drmSessionManager);
+        return ExoPlayerFactory.newSimpleInstance(renderersFactory, defaultTrackSelector, defaultLoadControl);
     }
 
     private void buildDrmSession() {
@@ -173,7 +174,6 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
         } catch (ParserException e) {
             e.printStackTrace();
         }
-
         if (drmSchemeUuid != null) {
             String[] keyRequestPropertiesArray = drmKeyRequestProperties;
             int errorStringId = R.string.error_drm_unknown;
