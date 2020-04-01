@@ -295,6 +295,10 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
             initialize();
         }
     }
+    public String getCurrentUrl(){
+        return this.url;
+    }
+
 
     @Override
     public void onPause() {
