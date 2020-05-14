@@ -26,7 +26,7 @@ import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SubtitleView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultAllocator;
@@ -36,10 +36,10 @@ import com.wecast.core.data.db.entities.AspectRatio;
 import com.wecast.core.data.db.pref.PreferenceManager;
 import com.wecast.core.logger.Logger;
 import com.wecast.player.R;
+import com.wecast.player.data.model.WePlayerParams;
 import com.wecast.player.data.player.AbstractPlayer;
 import com.wecast.player.data.player.exo.mediaSource.CustomMediaSourceBuilder;
 import com.wecast.player.data.player.exo.mediaSource.CustomMergingMediaSourceBuilder;
-import com.wecast.player.data.model.WePlayerParams;
 import com.wecast.player.data.player.exo.trackSelector.DefaultTrackSelectorFactory;
 import com.wecast.player.data.player.exo.trackSelector.ExoPlayerTrackSelector;
 import com.wecast.player.data.utils.ExoPlayerConfigUtils;
@@ -53,7 +53,7 @@ import javax.inject.Inject;
  * Created by ageech@live.com
  */
 
-public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayerView> implements SimpleExoPlayer.VideoListener {
+public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, PlayerView> implements SimpleExoPlayer.VideoListener {
 
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
 
@@ -102,9 +102,8 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
         }
     };
 
-    public WeExoPlayer(Activity activity, SimpleExoPlayerView playerView) {
+    public WeExoPlayer(Activity activity, PlayerView playerView) {
         super(activity, playerView);
-
         shouldAutoPlay = true;
         clearResumePosition();
         mediaDataSourceFactory = ExoPlayerConfigUtils.buildDataSourceFactory(activity, BANDWIDTH_METER);
@@ -139,6 +138,7 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
             playerView.setPlayer(player);
             player.setPlayWhenReady(shouldAutoPlay);
             player.addVideoListener(this);
+            playerView.setControllerShowTimeoutMs(5000);
         }
 
         if (needNewPlayer || needRetrySource) {
@@ -259,7 +259,6 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
         SubtitleView subtitleView = playerView.findViewById(R.id.exo_subtitles);
         subtitleView.setVisibility(shouldShowSubtitle ? View.VISIBLE : View.GONE);
     }
-
     @Override
     public void play(String url) {
         this.params = new WePlayerParams.Builder()
@@ -313,7 +312,6 @@ public class WeExoPlayer extends AbstractPlayer<SimpleExoPlayer, SimpleExoPlayer
             dispose();
         }
     }
-
 
     @Override
     public void onDestroy() {
