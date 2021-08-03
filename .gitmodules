@@ -1,0 +1,3 @@
+[submodule "wecast-2.0-player"]
+	path = wecast-2.0-player
+	url = https://github.com/KavyaSri7096/WecastMobileApp.git
